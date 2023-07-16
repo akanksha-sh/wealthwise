@@ -36,6 +36,7 @@ const renderActiveShape = (props) => {
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}
+        cornerRadius={5}
       />
       <Sector
         cx={cx}
@@ -45,6 +46,8 @@ const renderActiveShape = (props) => {
         innerRadius={outerRadius + 6}
         outerRadius={outerRadius + 10}
         fill={fill}
+        cornerRadius={5}
+
       />
       <path
         d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
@@ -93,9 +96,9 @@ export const PieComponent = ({ colors, data, view }) => {
   // Calculate the sum of amounts in data
   const totalAmount = data.reduce((sum, entry) => sum + entry.amount, 0);
   data = data.filter((obj) => obj.amount > 0);
-  const width = view === "budget" ? 700 : 1000;
+  const width = 700
   const height = 600;
-  const r = view === "budget" ? 170: 200;
+  const r = view === "budget" ? 180: 200;
 
   return (
     <PieChart width={width} height={height}>
@@ -103,13 +106,14 @@ export const PieComponent = ({ colors, data, view }) => {
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         data={data}
-        cx={(width - 100) / 2}
+        cx={(width - 50) / 2}
         cy={height / 2}
         innerRadius={r-50}
         outerRadius={r}
         fill="#8884d8"
         dataKey="amount"
         onMouseEnter={onPieEnter}
+        cornerRadius={5}
       >
         <Label
           value={`Total ${view === "budget" ? "Budget" : "Expenses"}:`}
@@ -126,7 +130,7 @@ export const PieComponent = ({ colors, data, view }) => {
           dy={10}
         />
         {data.map((i) => {
-          return <Cell fill={colors[i.category]} />;
+        return <Cell fill={colors[i.category]} cornerRadius={5}  />;
         })}
       </Pie>
     </PieChart>

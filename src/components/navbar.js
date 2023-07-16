@@ -1,7 +1,6 @@
 import { Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import {
-  PoundOutlined,
   PieChartOutlined,
   CalendarOutlined,
   TagsOutlined,
@@ -12,22 +11,22 @@ import { useState } from "react";
 const items = [
   {
     label: "This Month",
-    key: "dashboard",
+    key: "home",
     icon: <CalendarOutlined />,
     path: "/",
   },
   {
-    label: "Expenses",
-    key: "expenses",
+    label: "Spending",
+    key: "spending",
     icon: <TagsOutlined />,
-    path: "/expenses",
+    path: "/spending",
   },
-  {
-    label: "Income",
-    key: "income",
-    icon: <PoundOutlined />,
-    path: "/income",
-  },
+  // {
+  //   label: "Savings",
+  //   key: "savings",
+  //   icon: <PoundOutlined />,
+  //   path: "/savings",
+  // },
   {
     label: "Budget",
     key: "budget",

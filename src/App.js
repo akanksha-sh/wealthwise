@@ -5,10 +5,11 @@ import Budgets from "./pages/budgets";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 import React, { useEffect, useState } from "react";
-import Expenses from "./pages/expenses";
+import Spending from "./pages/expenses";
 import getAllTransactions from "./handles/dataloader";
 import { getCategoryColors } from "./handles/firestoreFunctions";
-import IncomeTable from "./pages/incomesTable";
+import { getTotalExpenses } from "./utils/utilFunctions";
+import moment from "moment";
 
 const { Header, Content, Footer } = Layout;
 
@@ -17,15 +18,15 @@ function App() {
     token: { colorBgContainer },
   } = theme.useToken();
   const [categoryColors, setCategoryColors] = useState({});
-  const [expensesData, setExpensesData] = useState([]);
-  const [incomeData, setIncomeData] = useState([]);
+  const [transactionData, setTransactionData] = useState([]);
+  const [totalExpenses, setTotalExpenses] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(moment());
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [expenses, incomes, categories] = await getAllTransactions();
-        setExpensesData(expenses);
-        setIncomeData(incomes);
+        const [transactions, categories] = await getAllTransactions();
+        setTransactionData(transactions);
         const cc = await getCategoryColors(categories);
         setCategoryColors(cc);
       } catch (error) {
@@ -34,6 +35,11 @@ function App() {
     }
     fetchData();
   }, []);
+  useEffect(() => {
+    const totals = getTotalExpenses(transactionData); 
+    setTotalExpenses(totals);
+      
+  }, [transactionData]);
   return (
     <Layout className="layout">
       <Header style={{ position: "sticky", zIndex: 1 }}>
@@ -41,39 +47,37 @@ function App() {
       </Header>
       <Content
         style={{
-          padding: "20px 20px",
+          padding: "30px",
           background: colorBgContainer,
         }}
       >
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} />} />
           <Route
-            path="/expenses"
+            path="/spending"
             element={
-              <Expenses
+              <Spending
                 categoryColors={categoryColors}
-                expensesData={expensesData}
+                transactionData={transactionData}
+                totalExpenses={totalExpenses}
               />
             }
           />
-          <Route
-            path="/income"
+          {/* <Route
+            path="/savings"
             element={
-              <IncomeTable
-                categoryColors={categoryColors}
-                incomeData={incomeData}
-              />
             }
-          />
+          /> */}
           <Route
             path="/budgets"
-            element={<Budgets categoryColors={categoryColors} />}
+            element={<Budgets categoryColors={categoryColors} totalExpenses={totalExpenses} />}
           />
         </Routes>
       </Content>
       <Footer
         style={{
           textAlign: "center",
+          padding: 15
         }}
       >
         WealthWise ©2023 Created by Aki S.

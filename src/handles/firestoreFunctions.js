@@ -11,7 +11,8 @@ const colors = [
   "#008000",
   "#ff1493",
   "#800080", // Additional color
-  "#4b0082", // Additional color
+  "#4b0082",
+  '#c21515'// Additional color
 ];
 
 export const readBudgets = async (collectionName) => {

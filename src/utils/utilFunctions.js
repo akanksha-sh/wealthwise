@@ -5,6 +5,11 @@ export function toCapitalCase(str) {
     });
 }
   
+export function getInitials(sentence) {
+  const twoWords = sentence.split(' ').slice(0, 2);
+  return twoWords.map((o) => o[0]).join('')
+}
+
 export function aggregate(data, cols=[], vals=[]) {
     // TODO: Use lodash partition, assert that length cols= vals) 
     const remainingData = data.filter((item) => {
